@@ -37,68 +37,68 @@ namespace DelegatesAndEvents
         /// <inheritdoc cref="IList{T}.this" />
         public TItem this[int index]
         {
-            get { throw new System.NotImplementedException(); }
-            set { throw new System.NotImplementedException(); }
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
 
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator" />
         public IEnumerator<TItem> GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc cref="IEnumerable.GetEnumerator" />
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         /// <inheritdoc cref="ICollection{T}.Add" />
         public void Add(TItem item)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc cref="ICollection{T}.Clear" />
         public void Clear()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc cref="ICollection{T}.Contains" />
         public bool Contains(TItem item)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc cref="ICollection{T}.CopyTo" />
         public void CopyTo(TItem[] array, int arrayIndex)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc cref="ICollection{T}.Remove" />
         public bool Remove(TItem item)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc cref="IList{T}.IndexOf" />
         public int IndexOf(TItem item)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc cref="IList{T}.RemoveAt" />
         public void Insert(int index, TItem item)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc cref="IList{T}.RemoveAt" />
         public void RemoveAt(int index)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc cref="object.Equals(object?)" />

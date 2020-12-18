@@ -13,8 +13,8 @@ namespace Indexers
         [TestInitialize]
         public void TestInitialize()
         {
-            this.pitagoricTable = new Map2D<int, int, int>();
-            this.pitagoricTable.Fill(
+            pitagoricTable = new Map2D<int, int, int>();
+            pitagoricTable.Fill(
                 Enumerable.Range(1, 10),
                 Enumerable.Range(1, 10),
                 (i, j) => i * j);
@@ -25,14 +25,14 @@ namespace Indexers
         {
             for (int i = 1; i <= 10; i++)
             {
-                Assert.AreEqual(i * i, this.pitagoricTable[i, i]);
+                Assert.AreEqual(i * i, pitagoricTable[i, i]);
             }
         }
 
         [TestMethod]
         public void GetRowTest()
         {
-            if (!this.pitagoricTable.GetRow(7).Select(t => t.Item2).SequenceEqual(this.seven))
+            if (!pitagoricTable.GetRow(7).Select(t => t.Item2).SequenceEqual(seven))
             {
                 Assert.Fail("Wrong implementation");
             }
@@ -41,7 +41,7 @@ namespace Indexers
         [TestMethod]
         public void GetColumnTest()
         {
-            if (!this.pitagoricTable.GetColumn(7).Select(t => t.Item2).SequenceEqual(this.seven))
+            if (!pitagoricTable.GetColumn(7).Select(t => t.Item2).SequenceEqual(seven))
             {
                 Assert.Fail("Wrong implementation");
             }

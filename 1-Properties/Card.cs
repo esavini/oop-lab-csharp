@@ -1,65 +1,84 @@
+using System;
+
 namespace Properties
 {
-    using System;
-
     /// <summary>
     /// The class models a card.
     /// </summary>
-    public class Card
+    public class Card : IEquatable<Card>
     {
-        private readonly string seed;
-        private readonly string name;
-        private readonly int ordinal;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Card"/> class.
+        /// </summary>
+        /// <param name="name">The name of the card.</param>
+        /// <param name="seed">The seed of the card.</param>
+        /// <param name="ordinal">The ordinal number of the card.</param>
+        public Card(string name, string seed, int ordinal) => (Name, Seed, Ordinal) = (name, seed, ordinal);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Card"/> class.
         /// </summary>
-        /// <param name="name">the name of the card.</param>
-        /// <param name="seed">the seed of the card.</param>
-        /// <param name="ordinal">the ordinal number of the card.</param>
-        public Card(string name, string seed, int ordinal)
-        {
-            this.name = name;
-            this.ordinal = ordinal;
-            this.seed = seed;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Card"/> class.
-        /// </summary>
-        /// <param name="tuple">the informations about the card as a tuple.</param>
+        /// <param name="tuple">The informations about the card as a tuple.</param>
         internal Card(Tuple<string, string, int> tuple)
             : this(tuple.Item1, tuple.Item2, tuple.Item3)
         {
         }
 
-        // TODO improve
-        public string GetSeed()
-        {
-            return this.seed;
-        }
+        /// <summary>
+        /// Card's seed.
+        /// </summary>
+        public readonly string Seed;
 
-        // TODO improve
-        public string GetName()
-        {
-            return this.name;
-        }
+        /// <summary>
+        /// Card's name.
+        /// </summary>
+        public readonly string Name;
 
-        // TODO improve
-        public int GetOrdinal()
-        {
-            return this.ordinal;
-        }
+        /// <summary>
+        /// Card's ordinal.
+        /// </summary>
+        public readonly int Ordinal;
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString()
         {
-            // TODO understand string interpolation
-            return $"{this.GetType().Name}(Name={this.GetName()}, Seed={this.GetSeed()}, Ordinal={this.GetOrdinal()})";
+            return $"{GetType().Name}(Name={Name}, Seed={Seed}, Ordinal={Ordinal})";
         }
 
-        // TODO generate Equals(object obj)
+        /// <inheritdoc cref="IEquatable{Card}.Equals(Card)"/>
+        public bool Equals(Card card)
+        {
+            if (card is null)
+            {
+                return false;
+            }
 
-        // TODO generate GetHashCode()
+            return Seed == card.Seed && Name == card.Name && Ordinal == card.Ordinal;
+        }
+
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            var card =  obj as Card;
+
+            return Equals(card);
+        }
+
+
+        /// <inheritdoc cref="object.GetHashCode"/>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Seed, Name, Ordinal);
+        }
     }
 }

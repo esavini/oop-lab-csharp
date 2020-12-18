@@ -184,7 +184,7 @@ namespace OperatorsOverloading
         /// </summary>
         /// <returns>an enumeration of each item of this list.</returns>
         public IEnumerable<TValue> ToFlat() =>
-            this.Flatten().Select(ht => ht.Head);
+            Flatten().Select(ht => ht.Head);
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)" />
         public bool Equals(List<TValue> other)
@@ -201,12 +201,12 @@ namespace OperatorsOverloading
         /// <inheritdoc cref="object.GetHashCode" />
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Head, this.Tail, this.IsNil, this.Length);
+            return HashCode.Combine(Head, Tail, IsNil, Length);
         }
 
         /// <inheritdoc cref="object.ToString"/>
         public override string ToString() =>
-            "[ " + string.Join(", ", this.Flatten().Select(l => l.Head)) + " ]";
+            "[ " + string.Join(", ", Flatten().Select(l => l.Head)) + " ]";
 
         /// <inheritdoc cref="List{TValue}"/>
         internal sealed class HeadTail<THead> : List<THead>
@@ -219,15 +219,15 @@ namespace OperatorsOverloading
 
             public HeadTail(THead head, List<THead> tail)
             {
-                this.Head = head;
-                this.Tail = tail ?? new List<THead>.Empty<THead>();
+                Head = head;
+                Tail = tail ?? new Empty<THead>();
             }
 
             /// <inheritdoc cref="List{TValue}.IsNil"/>
             public override bool IsNil => false;
 
             /// <inheritdoc cref="List{TValue}.Length"/>
-            public override int Length => 1 + this.Tail.Length;
+            public override int Length => 1 + Tail.Length;
         }
 
         /// <summary>
@@ -261,7 +261,7 @@ namespace OperatorsOverloading
         /// <typeparam name="TItem">the type of the items of the list.</typeparam>
         /// <param name="head">the element to use as head of the list.</param>
         /// <returns>a new list with only the given element.</returns>
-        public static List<TItem> Of<TItem>(TItem head) => List.Of(head, Nil<TItem>());
+        public static List<TItem> Of<TItem>(TItem head) => Of(head, Nil<TItem>());
 
         /// <summary>
         /// Build a new list from the given elements.
@@ -289,11 +289,11 @@ namespace OperatorsOverloading
         public static List<TItem> From<TItem>(IEnumerable<TItem> items)
         {
             var elems = items.Reverse().ToArray();
-            List<TItem> curr = List.Of(elems.First());
+            List<TItem> curr = Of(elems.First());
 
             foreach (var e in elems.Skip(1))
             {
-                curr = List.Of(e, curr);
+                curr = Of(e, curr);
             }
 
             return curr;
@@ -307,7 +307,7 @@ namespace OperatorsOverloading
         /// <typeparam name="TItem">the type of the items of the list.</typeparam>
         /// <returns>a new list with the given elements.</returns>
         public static List<TItem> From<TItem>(TItem item1, params TItem[] items) =>
-            List.From(Enumerable.Repeat(item1, 1).Concat(items));
+            From(Enumerable.Repeat(item1, 1).Concat(items));
 
         /// <summary>
         /// Append <paramref name="list2"/> to <paramref name="list1"/>.
@@ -319,11 +319,11 @@ namespace OperatorsOverloading
         public static List<TItem> Append<TItem>(List<TItem> list1, List<TItem> list2)
         {
             var elems = list1.Flatten().Select(l => l.Head).Reverse().ToArray();
-            List<TItem> curr = List.Of(elems.First(), list2);
+            List<TItem> curr = Of(elems.First(), list2);
 
             foreach (var e in elems.Skip(1))
             {
-                curr = List.Of(e, curr);
+                curr = Of(e, curr);
             }
 
             return curr;

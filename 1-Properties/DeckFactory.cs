@@ -1,65 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Properties
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>
     /// A factory class for building <see cref="ISet{T}">decks</see> of <see cref="Card"/>s.
     /// </summary>
     public class DeckFactory
     {
-        private string[] seeds;
+        private string[] _seeds;
 
-        private string[] names;
+        private string[] _names;
 
-        // TODO improve
-        public IList<string> GetSeeds()
+        /// <summary>
+        /// Cars seeds.
+        /// </summary>
+        public IList<string> Seeds
         {
-            return this.seeds.ToList();
+            get => _seeds.ToList();
+            set => _seeds = value.ToArray();
         }
 
-        // TODO improve
-        public void SetSeeds(IList<string> seeds)
+        /// <summary>
+        /// Cards names.
+        /// </summary>
+        public IList<string> Names
         {
-            this.seeds = seeds.ToArray();
+            get => _names.ToList();
+            set => _names = value.ToArray();
         }
 
-        // TODO improve
-        public IList<string> GetNames()
-        {
-            return this.names.ToList();
-        }
+        /// <summary>
+        /// Gets deck's size.
+        /// </summary>
+        public int Size => _names.Length * _seeds.Length;
 
-        // TODO improve
-        public void SetNames(IList<string> names)
+        /// <summary>
+        /// Gets card deck.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">When <see cref="Names"/> or <see cref="Seeds"/> are null.</exception>
+        public ISet<Card> Deck
         {
-            this.names = names.ToArray();
-        }
-
-        // TODO improve
-        public int GetDeckSize()
-        {
-            return this.names.Length * this.seeds.Length;
-        }
-
-        /// TODO improve
-        public ISet<Card> GetDeck()
-        {
-            if (this.names == null || this.seeds == null)
+            get
             {
-                throw new InvalidOperationException();
-            }
+                if (_names is null || _seeds is null)
+                {
+                    throw new InvalidOperationException();
+                }
 
-            return new HashSet<Card>(Enumerable
-                .Range(0, this.names.Length)
-                .SelectMany(i => Enumerable
-                    .Repeat(i, this.seeds.Length)
-                    .Zip(
-                        Enumerable.Range(0, this.seeds.Length),
-                        (n, s) => Tuple.Create(this.names[n], this.seeds[s], n)))
-                .Select(tuple => new Card(tuple))
-                .ToList());
+                return new HashSet<Card>(Enumerable
+                    .Range(0, _names.Length)
+                    .SelectMany(i => Enumerable
+                        .Repeat(i, _seeds.Length)
+                        .Zip(
+                            Enumerable.Range(0, _seeds.Length),
+                            (n, s) => Tuple.Create(_names[n], _seeds[s], n)))
+                    .Select(tuple => new Card(tuple))
+                    .ToList());
+            }
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ExtensionMethods
         {
             get
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -33,7 +33,7 @@ namespace ExtensionMethods
         {
             get
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -42,7 +42,7 @@ namespace ExtensionMethods
         {
             get
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -51,7 +51,7 @@ namespace ExtensionMethods
         {
             get
             {
-                throw new System.NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
@@ -65,7 +65,7 @@ namespace ExtensionMethods
         /// <inheritdoc cref="IEquatable{T}.Equals(T)"/>
         public bool Equals(IComplex other)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc cref="object.Equals(object?)"/>
