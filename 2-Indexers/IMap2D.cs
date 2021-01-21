@@ -1,7 +1,8 @@
+using System;
+using System.Collections.Generic;
+
 namespace Indexers
 {
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// A bidimentional map.

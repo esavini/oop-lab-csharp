@@ -5,7 +5,7 @@ namespace Properties
     /// <summary>
     /// The runnable entrypoint of the exercise.
     /// </summary>
-    public class Program
+    public static class Program
     {
         /// <inheritdoc cref="Program" />
         public static void Main()

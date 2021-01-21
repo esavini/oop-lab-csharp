@@ -69,9 +69,7 @@ namespace Properties
                 return true;
             }
 
-            var card =  obj as Card;
-
-            return Equals(card);
+            return Equals(obj as Card);
         }
 
 
