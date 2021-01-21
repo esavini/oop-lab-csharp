@@ -1,10 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OperatorsOverloading
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     /// <summary>
     /// The class models an immutable linked list.
     /// </summary>
@@ -36,10 +35,7 @@ namespace OperatorsOverloading
         /// </summary>
         /// <param name="enumerable">the array of elements to put on the list.</param>
         /// <returns>a new list with the given elements.</returns>
-        public static implicit operator List<TValue>(TValue[] enumerable)
-        {
-            throw new NotImplementedException();
-        }
+        public static implicit operator List<TValue>(TValue[] enumerable) => List.From(enumerable.AsEnumerable());
 
         /// <summary>
         /// Converts the given element into a new list implicitly.
@@ -48,7 +44,7 @@ namespace OperatorsOverloading
         /// <returns>a new list with only the given element.</returns>
         public static implicit operator List<TValue>(TValue element)
         {
-            throw new NotImplementedException();
+            return new HeadTail<TValue>(element, new Empty<TValue>());
         }
 
         /// <summary>
@@ -56,10 +52,8 @@ namespace OperatorsOverloading
         /// </summary>
         /// <param name="list">the list to transform.</param>
         /// <returns>an array containing the elements of the list.</returns>
-        public static explicit operator TValue[](List<TValue> list)
-        {
-            throw new NotImplementedException();
-        }
+        public static explicit operator TValue[](List<TValue> list) =>
+            list.Flatten().Where(l => !l.IsNil).Select(l => l.Head).ToArray();
 
         /// <summary>
         /// Determines whether two lists are equal by comparing each of the elements of the lists.
@@ -72,7 +66,37 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator ==(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            if (list1 is null || list2 is null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(list1, list2))
+            {
+                return true;
+            }
+
+            if (list1.IsNil && list2.IsNil)
+            {
+                return true;
+            }
+
+            if (!list1.Head.Equals(list2.Head))
+            {
+                return false;
+            }
+
+            if (list1.Tail.Length != list2.Tail.Length)
+            {
+                return false;
+            }
+
+            if (list1.Tail != list2.Tail)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -85,7 +109,7 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator !=(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            return !(list1 == list2);
         }
 
         /// <summary>
@@ -100,7 +124,17 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator >=(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            if (list1 == list2)
+            {
+                return true;
+            }
+
+            if (list1 > list2)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -115,7 +149,17 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator <=(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            if (list1 == list2)
+            {
+                return true;
+            }
+
+            if (list1 < list2)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -128,7 +172,12 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator <(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            if (list1.Length < list2.Length)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -141,7 +190,12 @@ namespace OperatorsOverloading
         /// </returns>
         public static bool operator >(List<TValue> list1, List<TValue> list2)
         {
-            throw new NotImplementedException();
+            if (list1.Length > list2.Length)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -150,10 +204,7 @@ namespace OperatorsOverloading
         /// <param name="list1">the first list.</param>
         /// <param name="list2">the second list.</param>
         /// <returns>the result list.</returns>
-        public static List<TValue> operator +(List<TValue> list1, List<TValue> list2)
-        {
-            throw new NotImplementedException();
-        }
+        public static List<TValue> operator +(List<TValue> list1, List<TValue> list2) => List.Append(list1, list2);
 
         /// <summary>
         /// Returns a list which contains only the items of <paramref name="list1"/>
@@ -162,10 +213,11 @@ namespace OperatorsOverloading
         /// <param name="list1">the first list.</param>
         /// <param name="list2">the second list.</param>
         /// <returns>the result list.</returns>
-        public static List<TValue> operator -(List<TValue> list1, List<TValue> list2)
-        {
-            throw new NotImplementedException();
-        }
+        public static List<TValue> operator -(List<TValue> list1, List<TValue> list2) =>
+            List.From(((TValue[]) list1)
+                .AsQueryable()
+                .Where(e => !((TValue[]) list2).AsQueryable().Contains(e))
+                .AsEnumerable());
 
         /// <summary>
         /// Converts this list into a list of lists, which are each one the tail of the previous one.
