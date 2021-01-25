@@ -23,17 +23,18 @@ namespace Iterators
                 }
             }
 
-            // TODO rewrite using methods from Java8StreamOperations
             IDictionary<int, int> occurrences = numbers
-                .Select(optN => {
+                .Map(optN =>
+                {
                     Console.Write(optN.ToString() + ",");
                     return optN;
                 })
-                .Skip(1)
-                .Take(len - 2)
-                .Where(optN => optN.HasValue)
-                .Select(optN => optN.Value)
-                .Aggregate(new Dictionary<int, int>(), (d, n) => {
+                .SkipSome(1)
+                .TakeSome(len - 2)
+                .Filter(optN => optN.HasValue)
+                .Map(optN => optN!.Value)
+                .Reduce(new Dictionary<int, int>(), (d, n) =>
+                {
                     if (!d.ContainsKey(n))
                     {
                         d[n] = 1;
